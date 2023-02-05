@@ -1,3 +1,8 @@
+
+
+const host = 'localhost';
+const protocol = 'http';
+const port = 3000;
 const sign_in_btn = document.querySelector("#sign-in-btn");
 const sign_up_btn = document.querySelector("#sign-up-btn");
 
@@ -13,9 +18,7 @@ sign_in_btn.addEventListener('click', () => {
 
 })
 
-const host = 'localhost';
-const protocol = 'http';
-const port = 3000;
+
 
 async function SignIn(event) {
     event.preventDefault();
@@ -32,14 +35,14 @@ async function SignIn(event) {
     }
     console.log('hii', newUser);
     try {
-        await axios.post(`${protocol}://${host}:${port}/newUser/add`, obj).then(response => {
+        await axios.post(`${protocol}://${host}:${port}/newUser/signin`, newUser).then(response => {
 
-            alert('Registered Successfully. Login!!');
+            alert(response.data.message);
         })
     }
     catch (err) {
 
-        alert('Oopss! User exists Already!! Login Please');
+        alert("User already exists!! Login or try another EmailID");
     }
 
 }
