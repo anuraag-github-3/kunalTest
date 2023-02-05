@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Login/Sign up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style.css">
 </head>
@@ -14,15 +15,19 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="" class="sign-in-form">
+                <form action="" class="sign-in-form" id="login" onsubmit="Login(event)">
                     <h2 class="title">Sign in</h2>
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
-                        <input type="text" name="text" id="text" placeholder="Username">
+                        <input type="email" name="mail" id="mail" placeholder="Email ID i.e. abc@xyz.com" required>
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-lock'></i>
-                        <input type="password" name="password" id="password" placeholder="Password">
+                        <input type="password" name="password" id="password" placeholder="Password..." required>
+                    </div>
+                    <div class="check">
+                        <input type="checkbox" class="check-box">
+                        <span style="display: contents"> Remember Password</span>
                     </div>
                     <input type="submit" value="Login" class="btn">
                     <p class="social-text">Or sign in with social media</p>
@@ -33,9 +38,9 @@
                         <a href="#" class="social-icon">
                             <i class='bx bxl-twitter'></i>
                         </a>
-                        <!-- <a href="#" class="social-icon">
+                        <a href="#" class="social-icon">
                             <i class='bx bxl-github'></i>
-                        </a> -->
+                        </a>
                         <a href="#" class="social-icon">
                             <i class='bx bxl-gmail'></i>
                         </a>
@@ -44,19 +49,28 @@
                         </a>
                     </div>
                 </form>
-                <form action="" class="sign-up-form">
+                <form action="" class="sign-up-form" id="signin" onsubmit="SignIn(event)">
                     <h2 class="title">Sign up</h2>
                     <div class="input-field">
                         <i class='bx bxs-user'></i>
-                        <input type="text" name="text" id="text" placeholder="Username">
+                        <input type="text" name="userName" id="userName" placeholder="User's name" required>
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-envelope'></i>
-                        <input type="text" name="text" id="text" placeholder="Email ID">
+                        <input type="email" name="email" id="email" placeholder="Email ID" required>
+                    </div>
+                    <div class="input-field">
+                        <i class='bx bxs-phone-call'></i>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                            placeholder=" Mobile Number" required>
                     </div>
                     <div class="input-field">
                         <i class='bx bxs-lock'></i>
-                        <input type="password" name="password" id="password" placeholder="Password">
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="check">
+                        <input type="checkbox" class="check-box">
+                        <span style="display: contents"> Remember Password</span>
                     </div>
                     <input type="submit" value="Sign up" class="btn">
                     <p class="social-text">Or sign in with social media</p>

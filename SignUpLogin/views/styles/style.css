@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
+
 /*CSS reset*/
 * {
     padding: 0;
@@ -42,6 +43,8 @@ input {
     left: 0;
 
 }
+
+
 
 .signin-signup {
     position: absolute;
