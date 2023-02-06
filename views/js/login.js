@@ -1,7 +1,14 @@
 const apiUrl = 'http://localhost:3000';
 const sign_in_btn = document.querySelector("#sign-in-btn");
 const sign_up_btn = document.querySelector("#sign-up-btn");
+let popup = document.getElementById("popup");
 
+function openPopup() {
+    popup.classList.add("open-popup");
+}
+function closePopup() {
+    popup.classList.remove("open-popup");
+}
 const container = document.querySelector(".container");
 
 sign_up_btn.addEventListener('click', () => {
@@ -13,6 +20,7 @@ sign_in_btn.addEventListener('click', () => {
     container.classList.remove("sign-up-mode");
 
 })
+
 
 async function handleSignInSubmit(event) {
     event.preventDefault();
@@ -35,6 +43,11 @@ async function handleSignInSubmit(event) {
         // If the server returns a success message, show an alert with the message
         if (response.data.message) {
             alert(response.data.message);
+            swal({
+                title: "Congratulations!🎆",
+                text: "You are added in GroupieHive. Please Login",
+                icon: "success",
+            });
         }
     } catch (err) {
         // If the server returns an error, show an alert with the error message
@@ -55,6 +68,7 @@ async function handleLoginSubmit(event) {
 
         if (response.status === 200) {
             alert(response.data.message);
+            openPopup();
 
         }
     } catch (err) {
