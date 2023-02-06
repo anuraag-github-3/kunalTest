@@ -8,10 +8,10 @@ function stringInvalid(str) {
 }
 exports.addMember = async (req, res) => {
     try {
-        console.log('>>>>>>>>>', req.body)
+        
         const userName = req.body.userName;
         const email = req.body.email;
-        const phone = +req.body.phone;
+        const phone = req.body.phone;
         const password = req.body.password;
         if (stringInvalid(userName) || stringInvalid(email) || stringInvalid(phone) || stringInvalid(password)) {
             return res.status(400).json({ err: "Missing input parameters" })
