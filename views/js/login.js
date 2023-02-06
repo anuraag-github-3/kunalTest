@@ -5,9 +5,12 @@ let popup = document.getElementById("popup");
 
 function openPopup() {
     popup.classList.add("open-popup");
+
+
 }
 function closePopup() {
     popup.classList.remove("open-popup");
+    window.location.href = "chatGUI.html"
 }
 const container = document.querySelector(".container");
 
@@ -72,6 +75,8 @@ async function handleLoginSubmit(event) {
         if (response.status === 200) {
             alert(response.data.message);
             openPopup();
+            localStorage.setItem('token', response.data.token);
+            //window.location.href = "chatGUI.html"
 
         }
     } catch (err) {
