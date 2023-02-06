@@ -8,7 +8,7 @@ function stringInvalid(str) {
 }
 exports.addMember = async (req, res) => {
     try {
-        
+
         const userName = req.body.userName;
         const email = req.body.email;
         const phone = req.body.phone;

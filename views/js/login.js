@@ -51,7 +51,10 @@ async function handleSignInSubmit(event) {
         }
     } catch (err) {
         // If the server returns an error, show an alert with the error message
-        alert(err.response.data.message || 'User already exists! Please sign in or try a different email address');
+        //let mess = err.data.message || 'User already exists! Please sign in or try a different email address';
+        let mess = 'User already exists! Please sign in or try a different email address';
+        swal("Ooops!!", `${mess}`);
+        alert('try again!!');
     }
 }
 
