@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 
 var cors = require('cors');
@@ -12,11 +13,15 @@ const loginRoute = require('./routes/login');
 const PORT = process.env.port
 
 const app = express();
+
+
 app.use(cors({
     origin: "*",
     credentials: true,
 }));
 app.use(bodyParser.json());
+app.use(helmet());
+
 
 app.use('/newUser', signinRoute);
 app.use('/user', loginRoute);
