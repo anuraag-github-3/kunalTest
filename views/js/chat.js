@@ -5,9 +5,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const token = localStorage.getItem('token');
-        console.log(token);
+
         const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } })
-        console.log('********', messagesData.data.messages[0]);
 
         for (let i = 0; i < messagesData.data.messages.length; i++) {
             showMessagesToUI(messagesData.data.messages[i]);
@@ -21,14 +20,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 async function messageSave(event) {
     event.preventDefault();
     const message = event.target.chatInput.value;
-    console.log(message, '****************');
     const msgDetails = {
         message
     }
 
     const token = localStorage.getItem('token');
     try {
-        console.log('>>>>>>', msgDetails);
+
         await axios.post(`${backendAPI}/message/post-message`, msgDetails, { headers: { "Authorization": token } }).then(response => {
 
             showMessagesToUI(response.data.messagesData);

@@ -81,6 +81,7 @@ async function handleLoginSubmit(event) {
 
         }
     } catch (err) {
+        
         const errorMessage = err.response?.data.message || "Incorrect Credentials! Please try again";
         alert(errorMessage);
         console.error("Error during login", JSON.stringify(err));
