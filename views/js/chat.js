@@ -1,7 +1,7 @@
 const backendAPI = 'http://localhost:3000';
 
 
-window.addEventListener("DOMContentLoaded", async () => {
+/*window.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const token = localStorage.getItem('token');
@@ -15,7 +15,31 @@ window.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.log(error);
     }
-})
+})*/
+
+async function updateChatScreen() {
+    try {
+        const token = localStorage.getItem('token');
+        const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } });
+
+        clearChatUI();
+        for (let i = 0; i < messagesData.data.messages.length; i++) {
+            showMessagesToUI(messagesData.data.messages[i]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function clearChatUI() {
+    const chatContainer = document.getElementById("chat-container");
+    chatContainer.innerHTML = "";
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    setInterval(updateChatScreen, 1000);
+});
+
 
 async function messageSave(event) {
     event.preventDefault();
