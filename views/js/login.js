@@ -73,9 +73,10 @@ async function handleLoginSubmit(event) {
         const response = await axios.post(`${apiUrl}/user/login`, loginDetail);
 
         if (response.status === 200) {
+            localStorage.setItem('token', response.data.token);
             alert(response.data.message);
             openPopup();
-            localStorage.setItem('token', response.data.token);
+
             //window.location.href = "chatGUI.html"
 
         }

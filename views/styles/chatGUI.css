@@ -303,8 +303,9 @@ html {
 }
 
 #chatForm {
+	display: flex;
+	justify-content: flex-end;
 	padding: 10px;
-	text-align: right;
 }
 
 #chatInput {

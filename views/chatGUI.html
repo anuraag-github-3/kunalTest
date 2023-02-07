@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/chatGUI.css">
-    <title>GROUPIEHIVE</title>
+    <link rel="stylesheet" type="text/css" href="styles/chatGUI.css">
+    <link rel="shortcut icon" href="#">
+
 </head>
 
 <body>
     <div id="chatContainer">
         <div id="chatMessages">
         </div>
-        <form id="chatForm">
-            <input type="text" id="chatInput" placeholder="Enter message...">
+        <form id="chatForm" onsubmit="messageSave(event)">
+            <input type="text" name="chatInput" id="chatInput" placeholder="Enter message...">
             <button type="submit">Send</button>
         </form>
     </div>
 </body>
+<script src="js/chat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
 
 </html>

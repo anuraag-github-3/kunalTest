@@ -36,7 +36,7 @@ const login = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: 'Successfully Logged IN',
-                token: generateAccessToken(member.id, member.userName)
+                token: generateAccessToken(memberfound.id, memberfound.userName)
             });
         } else {
             return res.status(401).json({ success: false, message: 'Password incorrect' });
