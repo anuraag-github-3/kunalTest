@@ -1,44 +1,42 @@
 const backendAPI = 'http://localhost:3000';
 
+let inputFieldEmpty = true;
 
-/*window.addEventListener("DOMContentLoaded", async () => {
+const chatInput = document.querySelector("#chatInput");
+chatInput.addEventListener('input', () => {
+    inputFieldEmpty = !chatInput.value;
+});
 
-    try {
-        const token = localStorage.getItem('token');
-
-        const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } })
-
-        for (let i = 0; i < messagesData.data.messages.length; i++) {
-            showMessagesToUI(messagesData.data.messages[i]);
-        }
-
-    } catch (error) {
-        console.log(error);
-    }
-})*/
-
-async function updateChatScreen() {
-    try {
-        const token = localStorage.getItem('token');
-        const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } });
-
-        clearChatUI();
-        for (let i = 0; i < messagesData.data.messages.length; i++) {
-            showMessagesToUI(messagesData.data.messages[i]);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function clearChatUI() {
-    const chatContainer = document.getElementById("chat-container");
-    chatContainer.innerHTML = "";
-}
+const msgArray = [];
 
 window.addEventListener("DOMContentLoaded", async () => {
-    setInterval(updateChatScreen, 1000);
-});
+    try {
+
+        const token = localStorage.getItem('token');
+        refreshMessages(token);
+
+        setInterval(async () => {
+            refreshMessages(token);
+        }, 4000);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+async function refreshMessages(token) {
+    try {
+        const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } })
+        const chatMessages = document.querySelector("#chatMessages");
+        chatMessages.innerHTML = '';
+
+        for (let i = 0; i < messagesData.data.messages.length; i++) {
+            showMessagesToUI(messagesData.data.messages[i]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 async function messageSave(event) {
@@ -52,8 +50,11 @@ async function messageSave(event) {
     try {
 
         await axios.post(`${backendAPI}/message/post-message`, msgDetails, { headers: { "Authorization": token } }).then(response => {
-
+            chatInput.value = "";
             showMessagesToUI(response.data.messagesData);
+            refreshMessages(token);
+
+
         })
     }
     catch (err) {
@@ -70,5 +71,7 @@ function showMessagesToUI(messageObject) {
     const date = new Date(messageObject.createdAt);
     messageElement.innerHTML = `<b>${messageObject.memberName}</b>: ${messageObject.message} (${date.toLocaleString()})`;
     chatMessages.appendChild(messageElement);
-    chatInput.value = "";
+    if (inputFieldEmpty) {
+        chatInput.value = "";
+    }
 }

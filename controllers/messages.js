@@ -57,7 +57,7 @@ const getMessages = async (req, res) => {
             message: message.message,
             createdAt: message.createdAt,
         }));
-        console.log(messagesArray);
+
 
         return res.status(200).json({
             messages: messagesArray
