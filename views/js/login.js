@@ -5,8 +5,6 @@ let popup = document.getElementById("popup");
 
 function openPopup() {
     popup.classList.add("open-popup");
-
-
 }
 function closePopup() {
     popup.classList.remove("open-popup");
@@ -81,7 +79,7 @@ async function handleLoginSubmit(event) {
 
         }
     } catch (err) {
-        
+
         const errorMessage = err.response?.data.message || "Incorrect Credentials! Please try again";
         alert(errorMessage);
         console.error("Error during login", JSON.stringify(err));

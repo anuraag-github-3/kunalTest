@@ -25,9 +25,11 @@ const postMessage = async (req, res) => {
         })
 
         messageDetails = {
+            msgID: data.id,
             memberName: foundMember.userName,
             message: data.message,
-            createdAt: data.createdAt
+            createdAt: data.createdAt,
+            id: data.id
 
         }
         return res.status(201).json({ success: true, messagesData: messageDetails });
@@ -41,21 +43,42 @@ const postMessage = async (req, res) => {
 }
 
 const getMessages = async (req, res) => {
-    try {
-        const messageList = await messages.findAll({
-            include: [{
-                model: members,
-                attributes: ['userName'],
-                where: {
-                    id: Sequelize.col('messages.memberId')
-                }
-            }]
-        });
 
+    const lastMessageID = +req.query.messageID;
+    console.log('********type of****', typeof lastMessageID)
+    console.log('*******', lastMessageID);
+
+    try {
+        var messageList;
+        if (lastMessageID == "0" || lastMessageID == undefined) {
+            messageList = await messages.findAll({
+                include: [{
+                    model: members,
+                    attributes: ['userName'],
+                    where: {
+                        id: Sequelize.col('messages.memberId')
+                    }
+                }]
+            })
+
+        }
+        else {
+            messageList = await messages.findAll({
+                where: {
+                    id: {
+                        [Op.gt]: lastMessageID
+                    }
+                }
+            })
+            console.log('ooooooooooooooo2');
+
+        }
+        console.log('//////////', messageList);
         const messagesArray = messageList.map(message => ({
             memberName: message.member.userName,
             message: message.message,
             createdAt: message.createdAt,
+            id: message.id
         }));
 
 

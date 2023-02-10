@@ -10,25 +10,46 @@ chatInput.addEventListener('input', () => {
 const msgArray = [];
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const msgArray = await getLocalStorageMessages();
     try {
-
-        const token = localStorage.getItem('token');
-        refreshMessages(token);
+        refreshMessages();
 
         setInterval(async () => {
-            refreshMessages(token);
+            refreshMessages();
         }, 4000);
     } catch (error) {
         console.log(error);
     }
 })
 
-async function refreshMessages(token) {
+async function getLocalStorageMessages() {
+    if (localStorage.message) {
+        return await JSON.parse(localStorage.message);
+    }
+}
+
+async function refreshMessages() {
+    const token = localStorage.getItem('token');
+    let lengthOfMessages = msgArray.length;
+    let lastMessageID;
+    if (lengthOfMessages != 0) {
+        lastMessageID = msgArray[lengthOfMessages - 1].id;
+    }
+    else {
+        lastMessageID = 0;
+    }
     try {
-        const messagesData = await axios.get(`${backendAPI}/message/get-messages`, { headers: { "Authorization": token } })
+
+        const messagesData = await axios.get(`${backendAPI}/message/get-messages?messageID=${lastMessageID}`, {
+            headers: {
+                "Authorization": token
+            }
+        });
+
+        console.log('***************', messagesData);
         const chatMessages = document.querySelector("#chatMessages");
         chatMessages.innerHTML = '';
-
+        updateLocalStorageMesseges(messagesData.data.messages);
         for (let i = 0; i < messagesData.data.messages.length; i++) {
             showMessagesToUI(messagesData.data.messages[i]);
         }
@@ -36,7 +57,13 @@ async function refreshMessages(token) {
         console.log(error);
     }
 }
+async function updateLocalStorageMesseges(newMessages) {
+    newMessages.forEach((message) => {
+        msgArray.push(message)
+    })
+    localStorage.message = JSON.stringify(msgArray);
 
+}
 
 
 async function messageSave(event) {
@@ -53,16 +80,15 @@ async function messageSave(event) {
             chatInput.value = "";
             showMessagesToUI(response.data.messagesData);
             refreshMessages(token);
-
-
         })
     }
     catch (err) {
         document.body.innerHTML = document.body.innerHTML + "<H4>Something went wrong!<h4>";
         console.log(err);
     }
-
 }
+
+
 
 function showMessagesToUI(messageObject) {
     const chatInput = document.querySelector("#chatInput");
