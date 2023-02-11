@@ -1,6 +1,7 @@
 const members = require('../models/members')
 const messages = require('../models/messages');
-const Sequelize = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
+
 
 require('dotenv').config();
 function stringInvalid(str) {
@@ -43,14 +44,11 @@ const postMessage = async (req, res) => {
 }
 
 const getMessages = async (req, res) => {
-
-    const lastMessageID = +req.query.messageID;
-    console.log('********type of****', typeof lastMessageID)
-    console.log('*******', lastMessageID);
-
     try {
+        const lastMessageID = parseInt(req.query.messageID);
+        console.log('*******', lastMessageID);
         var messageList;
-        if (lastMessageID == "0" || lastMessageID == undefined) {
+        if (lastMessageID == 0) {
             messageList = await messages.findAll({
                 include: [{
                     model: members,
@@ -63,17 +61,26 @@ const getMessages = async (req, res) => {
 
         }
         else {
-            messageList = await messages.findAll({
-                where: {
-                    id: {
-                        [Op.gt]: lastMessageID
+            try {
+                messageList = await messages.findAll({
+                    include: [{
+                        model: members,
+                        attributes: ['userName'],
+                        where: {
+                            id: Sequelize.col('messages.memberId')
+                        }
+                    }],
+                    where: {
+                        id: {
+                            [Op.gt]: lastMessageID
+                        }
                     }
-                }
-            })
-            console.log('ooooooooooooooo2');
-
+                });
+                console.log('ooooooooooooooo2', messageList);
+            } catch (err) {
+                console.error(err);
+            }
         }
-        console.log('//////////', messageList);
         const messagesArray = messageList.map(message => ({
             memberName: message.member.userName,
             message: message.message,

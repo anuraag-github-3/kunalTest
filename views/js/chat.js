@@ -1,19 +1,18 @@
 const backendAPI = 'http://localhost:3000';
 
 let inputFieldEmpty = true;
+const msgArray = [];
 
 const chatInput = document.querySelector("#chatInput");
 chatInput.addEventListener('input', () => {
     inputFieldEmpty = !chatInput.value;
 });
 
-const msgArray = [];
+
 
 window.addEventListener("DOMContentLoaded", async () => {
     const msgArray = await getLocalStorageMessages();
     try {
-        refreshMessages();
-
         setInterval(async () => {
             refreshMessages();
         }, 4000);
@@ -22,37 +21,41 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 })
 
+
 async function getLocalStorageMessages() {
     if (localStorage.message) {
         return await JSON.parse(localStorage.message);
     }
 }
 
+
 async function refreshMessages() {
-    const token = localStorage.getItem('token');
-    let lengthOfMessages = msgArray.length;
-    let lastMessageID;
-    if (lengthOfMessages != 0) {
-        lastMessageID = msgArray[lengthOfMessages - 1].id;
-    }
-    else {
-        lastMessageID = 0;
-    }
+
     try {
 
+        const token = localStorage.getItem('token');
+        let lengthOfMessages = msgArray.length;
+        let lastMessageID;
+        if (lengthOfMessages != 0) {
+            lastMessageID = msgArray[lengthOfMessages - 1].id;
+        }
+        else {
+            lastMessageID = 0;
+        }
         const messagesData = await axios.get(`${backendAPI}/message/get-messages?messageID=${lastMessageID}`, {
             headers: {
                 "Authorization": token
             }
         });
 
-        console.log('***************', messagesData);
-        const chatMessages = document.querySelector("#chatMessages");
-        chatMessages.innerHTML = '';
-        updateLocalStorageMesseges(messagesData.data.messages);
-        for (let i = 0; i < messagesData.data.messages.length; i++) {
-            showMessagesToUI(messagesData.data.messages[i]);
+        if (messagesData.data.messages.length != 0) {
+            updateLocalStorageMesseges(messagesData.data.messages);
+            for (let i = 0; i < messagesData.data.messages.length; i++) {
+                showMessagesToUI(messagesData.data.messages[i]);
+            }
+
         }
+
     } catch (error) {
         console.log(error);
     }
@@ -78,8 +81,7 @@ async function messageSave(event) {
 
         await axios.post(`${backendAPI}/message/post-message`, msgDetails, { headers: { "Authorization": token } }).then(response => {
             chatInput.value = "";
-            showMessagesToUI(response.data.messagesData);
-            refreshMessages(token);
+            refreshMessages();
         })
     }
     catch (err) {
