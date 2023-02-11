@@ -76,7 +76,7 @@ const getMessages = async (req, res) => {
                         }
                     }
                 });
-                console.log('ooooooooooooooo2', messageList);
+
             } catch (err) {
                 console.error(err);
             }

@@ -1,18 +1,18 @@
 const backendAPI = 'http://localhost:3000';
 
 let inputFieldEmpty = true;
-const msgArray = [];
 
 const chatInput = document.querySelector("#chatInput");
 chatInput.addEventListener('input', () => {
     inputFieldEmpty = !chatInput.value;
 });
 
-
+const msgArray = [];
 
 window.addEventListener("DOMContentLoaded", async () => {
-    const msgArray = await getLocalStorageMessages();
+
     try {
+        const msgArray = await getLocalStorageMessages();
         setInterval(async () => {
             refreshMessages();
         }, 4000);
@@ -23,44 +23,31 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 
 async function getLocalStorageMessages() {
-    if (localStorage.message) {
-        return await JSON.parse(localStorage.message);
-    }
+    return localStorage.message ? JSON.parse(localStorage.message) : [];
 }
 
 
 async function refreshMessages() {
 
     try {
-
         const token = localStorage.getItem('token');
-        let lengthOfMessages = msgArray.length;
-        let lastMessageID;
-        if (lengthOfMessages != 0) {
-            lastMessageID = msgArray[lengthOfMessages - 1].id;
-        }
-        else {
-            lastMessageID = 0;
-        }
+        const lastMessageID = msgArray.length ? msgArray[msgArray.length - 1].id : 0;
         const messagesData = await axios.get(`${backendAPI}/message/get-messages?messageID=${lastMessageID}`, {
             headers: {
                 "Authorization": token
             }
         });
 
-        if (messagesData.data.messages.length != 0) {
-            updateLocalStorageMesseges(messagesData.data.messages);
-            for (let i = 0; i < messagesData.data.messages.length; i++) {
-                showMessagesToUI(messagesData.data.messages[i]);
-            }
-
+        if (messagesData.data.messages.length) {
+            updateLocalStorageMessages(messagesData.data.messages);
+            messagesData.data.messages.forEach(showMessagesToUI);
         }
 
     } catch (error) {
         console.log(error);
     }
 }
-async function updateLocalStorageMesseges(newMessages) {
+async function updateLocalStorageMessages(newMessages) {
     newMessages.forEach((message) => {
         msgArray.push(message)
     })
