@@ -322,3 +322,15 @@ button[type="submit"] {
 	color: white;
 	border: none;
 }
+
+.contacts li:hover {
+	cursor: pointer;
+}
+
+.member-list-container {
+	display: none;
+}
+
+.member-list-container.visible {
+	display: block;
+}

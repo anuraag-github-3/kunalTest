@@ -29,13 +29,15 @@ async function handleSignInSubmit(event) {
     const userName = event.target.userName.value;
     const email = event.target.email.value;
     const phone = event.target.phone.value;
+    const picLink = event.target.url.value;
     const password = event.target.password.value;
 
     const newUser = {
         userName,
         email,
         phone,
-        password
+        password,
+        picLink
     };
 
     try {
@@ -68,10 +70,12 @@ async function handleLoginSubmit(event) {
     const loginDetail = { mail, password };
 
     try {
+        console.log('00000', loginDetail);
         const response = await axios.post(`${apiUrl}/user/login`, loginDetail);
 
         if (response.status === 200) {
             localStorage.setItem('token', response.data.token);
+
             alert(response.data.message);
             openPopup();
 

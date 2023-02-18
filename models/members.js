@@ -18,6 +18,9 @@ const members = sequelize.define('members', {
     phone: {
         type: Sequelize.STRING
     },
+    picLink: {
+        type: Sequelize.STRING
+    },
     password: {
         type: Sequelize.STRING
 

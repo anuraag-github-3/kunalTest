@@ -4,10 +4,13 @@ const memberAuthentication = require('../middleware/auth');
 const messagesController = require('../controllers/messages');
 
 const router = express.Router();
-router.get('/get-messages', memberAuthentication.authenticate, messagesController.getMessages);
 
-router.post('/post-message', memberAuthentication.authenticate, messagesController.postMessage);
+router.get('/getGroupMessages/:groupId', memberAuthentication.authenticate, messagesController.getGroupMessages);
 
+router.post('/newGroupMessage', memberAuthentication.authenticate, messagesController.newGroupMessage);
+//router.get('/get-messages', memberAuthentication.authenticate, messagesController.getMessages);
+
+//router.post('/post-message', memberAuthentication.authenticate, messagesController.postMessage);
 
 
 module.exports = router;

@@ -2,22 +2,237 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="styles/chatGUI.css">
+    <title>Chat</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+
     <link rel="shortcut icon" href="#">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="styles/chatGUI.css">
+
 
 </head>
 
 <body>
-    <div id="chatContainer">
-        <div id="chatMessages">
+
+    <div class="d-flex bd-highlight" style="margin-left: 20px;  margin-top: 10px;">
+        <div class="img_cont" id="profilePic">
+
+            <span class="online_icon"></span>
         </div>
-        <form id="chatForm" onsubmit="messageSave(event)">
-            <input type="text" name="chatInput" id="chatInput" placeholder="Enter message...">
-            <button type="submit">Send</button>
-        </form>
+        <div class="user_info" id="user_info">
+
+        </div>
     </div>
+    <button id="createGroupButton"
+        style="position: absolute; top: 10px; right: 10px; padding: 10px 20px; background-color: rgba(0,0,255,0.3); color: white; border: none; border-radius: 5px; transition: all 0.3s ease;">Create
+        New Group
+    </button>
+    <button id="addAdminButton"
+        style="position: absolute; top: 130px; right: 10px; padding: 10px 20px; background-color: rgba(0,0,255,0.3); color: white; border: none; border-radius: 5px; transition: all 0.3s ease;">Add
+        Admin
+    </button>
+    <button id="removeAdminButton"
+        style="position: absolute; top: 70px; right: 10px; padding: 10px 20px; background-color: rgba(0,0,255,0.3); color: white; border: none; border-radius: 5px; transition: all 0.3s ease;">Remove
+        Admin
+    </button>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-md-4 col-xl-3 chat">
+                <div class="card mb-sm-3 mb-md-0 contacts_card">
+                    <div class="card-header">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search..." name="" class="form-control search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body contacts_body">
+                        <ui class="contacts">
+                        </ui>
+                    </div>
+                    <div class="card-footer"></div>
+                </div>
+            </div>
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight" id="groupInfo">
+                        </div>
+                        <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                        <div class="action_menu">
+                            <ul>
+                                <li><i class="fas fa-plus"></i> Add Members</li>
+                                <li><i class="fas fa-ban"></i> Remove Member</li>
+                                <li><i class="fas fa-plus" id="showMember"></i> </i>members</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body msg_card_body">
+                        <div class="card-footer">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                </div>
+                                <textarea name="userMessage" id="userMessage" class="form-control type_msg"
+                                    placeholder="Type your message..."></textarea>
+                                <div class="input-group-append">
+                                    <span class="input-group-text send_btn" id="sendMessage"><i
+                                            class="fas fa-location-arrow"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="createNewGroupBtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Create Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="createGroupForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Group Name</label>
+                            <input type="text" class="form-control" name="groupName" id="newGroupName"
+                                placeholder="Goa Trip" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Group Photo url</label>
+                            <input type="url" class="form-control" name="groupPhotoURL" id="groupPhotoURL"
+                                placeholder="LINK..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Select Group Participants</label>
+                            <select class="chosen-select form-control" id="groupUsers" name="groupUsers" multiple>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddnewAdminBtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Add new Group ADMIN</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="createAddAdminForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Add Admin</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Select Group Admin</label>
+                            <select class="chosen-select form-control" id="newAdmins" name="newAdmins" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+        <div class="text-center p-3" style="background-color: #20262E">
+        </div>
+    </footer>
+    <div class="modal fade" id="removeAdminBtn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Delete Group ADMIN</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="removeAdminForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Remove Admin</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect2">Select Admin to Remove</label>
+                            <select class="chosen-select form-control" id="deleteAdmins" name="deleteAdmins" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" style="background-color: #913175; border-color: #CD5888;"
+                            class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+        <div class="text-center p-3" style="background-color: #20262E">
+        </div>
+    </footer>
+
+
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/chat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+
+
+
 </body>
-<script src="js/chat.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
 
 </html>

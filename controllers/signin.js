@@ -12,8 +12,11 @@ exports.addMember = async (req, res) => {
         const userName = req.body.userName;
         const email = req.body.email;
         const phone = req.body.phone;
+        const picLink = req.body.picLink;
         const password = req.body.password;
-        if (stringInvalid(userName) || stringInvalid(email) || stringInvalid(phone) || stringInvalid(password)) {
+
+
+        if (stringInvalid(userName) || stringInvalid(email) || stringInvalid(phone) || stringInvalid(password) || stringInvalid(picLink)) {
             return res.status(400).json({ err: "Missing input parameters" })
         }
         bcrypt.hash(password, 10, async (err, hash) => {
@@ -21,6 +24,7 @@ exports.addMember = async (req, res) => {
                 userName: userName,
                 email: email,
                 phone: phone,
+                picLink: picLink,
                 password: hash
             })
             res.status(201).json({ message: 'Successfully created new user. Login!!' });
