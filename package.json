@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/kunalmkv/GroupieHive#readme",
   "dependencies": {
+    "aws-sdk": "^2.1318.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",

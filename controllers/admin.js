@@ -4,6 +4,7 @@ const Member = require('../models/members');
 const Group = require('../models/Group');
 const Admin = require('../models/Admin');
 
+
 const makeGroupAdmin = async (req, res) => {
     try {
         var memberId;
@@ -26,11 +27,11 @@ const makeGroupAdmin = async (req, res) => {
         res.status(500);
     }
 }
+
+
 const checkAdmin = async (req, res) => {
     try {
         let userId;
-
-
         if (req.query.memberID) {
             userId = req.query.userId;
         } else {
@@ -42,7 +43,6 @@ const checkAdmin = async (req, res) => {
                 memberId: userId
             }
         })
-        console.log('***userID***', groupAdmins[0]);
         if (groupAdmins[0]) {
             res.status(200).send(true);
         } else {
@@ -96,6 +96,7 @@ const createNewAdmin = async (req, res) => {
         res.status(500);
     }
 }
+
 const removeAdmin = async (req, res) => {
     try {
         await Admin.destroy({
@@ -111,6 +112,8 @@ const removeAdmin = async (req, res) => {
         res.status(500);
     }
 }
+
+
 module.exports = {
     makeGroupAdmin,
     checkAdmin,

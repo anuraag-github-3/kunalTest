@@ -390,6 +390,38 @@ document.querySelector('#removeAdminForm').addEventListener('submit', async (e) 
 })
 
 
+const attachBtn = document.querySelector('.attach_btn');
+const fileInput = document.querySelector('#fileInput');
+
+attachBtn.addEventListener('click', () => {
+    fileInput.click();
+
+});
+
+async function uploadFile() {
+
+    const groupId = localStorage.getItem('groupChatID');
+    const fileInput = document.querySelector('#fileInput');
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log(formData);
+
+    await axios.post(`${backendAPI}/message/uploadFile/${groupId}`, formData, {
+        headers: {
+            "Authorization": token,
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(response => {
+        console.log('File uploaded successfully');
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+
+
 document.getElementById("createGroupForm").addEventListener("submit", function (e) {
     e.preventDefault();
     document.getElementById("createNewGroupBtn").style.display = "none";

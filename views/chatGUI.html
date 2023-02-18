@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Chat</title>
+    <title>GROUPIEHIVE Chat</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -89,8 +89,11 @@
                     <div class="card-body msg_card_body">
                         <div class="card-footer">
                             <div class="input-group">
+                                <input type="file" id="fileInput" style="display:none">
+
                                 <div class="input-group-append">
                                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                    <button onclick="uploadFile()">Upload</button>
                                 </div>
                                 <textarea name="userMessage" id="userMessage" class="form-control type_msg"
                                     placeholder="Type your message..."></textarea>

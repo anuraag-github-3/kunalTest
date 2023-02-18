@@ -25,9 +25,9 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
-app.use(helmet());
-app.use(compression());
-app.use(express.static(staticPath));
+//app.use(helmet());
+//app.use(compression());
+//app.use(express.static(staticPath));
 
 
 const signinRoute = require('./routes/signin');
