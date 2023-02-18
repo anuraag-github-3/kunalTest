@@ -9,10 +9,9 @@ var cors = require('cors');
 
 dotenv.config();
 const app = express();
-//console.log('** path join', path.join(__dirname, "/views"))
+
 
 const staticPath = path.join(__dirname, "/views")
-//console.log('*** dir name', __dirname)
 const sequelize = require('./util/database');
 
 const members = require('./models/members');
@@ -25,9 +24,9 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
-//app.use(helmet());
-//app.use(compression());
-//app.use(express.static(staticPath));
+app.use(helmet());
+app.use(compression());
+app.use(express.static(staticPath));
 
 
 const signinRoute = require('./routes/signin');
@@ -62,7 +61,6 @@ messages.belongsTo(members);
 admin.belongsTo(members);
 members.hasMany(admin);
 
-
 messages.belongsTo(group, { constraints: true, onDelete: 'CASCADE' });
 messages.belongsTo(members, { constraints: true, onDelete: 'CASCADE' });
 
@@ -70,7 +68,7 @@ messages.belongsTo(members, { constraints: true, onDelete: 'CASCADE' });
 sequelize.sync().then(result => {
 
     app.listen(PORT);
-    console.log(`Server started running at : ${PORT}`);
+    console.log(`Server started . And running at : ${PORT}`);
 })
     .catch(err => {
         console.log(err);

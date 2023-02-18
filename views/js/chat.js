@@ -48,6 +48,8 @@ attachButtonEventListeners("addAdminButton");
 
 window.addEventListener("DOMContentLoaded", async () => {
     try {
+
+
         const decodeToken = parseJwt(token);
         url = decodeToken.picLink;
         name = decodeToken.userName;
@@ -65,6 +67,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         //to get list of groups the the user has joined
         let listOfGroup = await axios.get(`${backendAPI}/group/getUserGroups`, { headers: { "Authorization": token } });
         let listOfGroups = listOfGroup.data.Groups;
+
 
         listOfGroups.forEach(async group => {
             showGrouptoUI(group)
