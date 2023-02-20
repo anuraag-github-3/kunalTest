@@ -8,7 +8,6 @@ function stringInvalid(str) {
     else return false;
 }
 
-
 const getMemberList = async (req, res) => {
     try {
         let getMembers;
@@ -23,13 +22,10 @@ const getMemberList = async (req, res) => {
                 }
             });
         }
-
-
         const memberList = getMembers.filter(member => member.id !== memberID)
             .map(member => ({ name: member.userName, id: member.id }));
 
         return res.status(200).json(Object.values(memberList));
-
 
     } catch (error) {
         console.error(error);

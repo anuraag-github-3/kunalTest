@@ -11,13 +11,15 @@ const makeGroupAdmin = async (req, res) => {
         console.log('body******', req.body);
         console.log('id*******', req.body.newAdminId)
         if (req.body.newAdminId) {
-            memberId = req.body.newAdminId
+            memberId = +req.body.newAdminId
         }
         else {
-            memberId = req.user.id
+            memberId = +req.user.id
         }
+
+        console.log(typeof memberId);
         await Admin.create({
-            GroupId: req.body.groupId,
+            GroupId: +req.body.GroupId,
             memberId: memberId
         })
         res.status(200).send('Successful');

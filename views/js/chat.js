@@ -48,8 +48,6 @@ attachButtonEventListeners("addAdminButton");
 
 window.addEventListener("DOMContentLoaded", async () => {
     try {
-
-
         const decodeToken = parseJwt(token);
         url = decodeToken.picLink;
         name = decodeToken.userName;
@@ -290,6 +288,7 @@ document.querySelector('#createGroupForm').addEventListener('submit', async (e) 
     showGrouptoUI(createGroup.data);
 
     await axios.post(`${backendAPI}/admin/makeGroupAdmin`, {
+        newAdminId: localStorage.getItem('memberID'),
         GroupId: createGroup.data.id
     }, { headers: { "Authorization": token } })
 })

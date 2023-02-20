@@ -40,10 +40,6 @@ const PORT = process.env.port || 3000
 
 
 
-
-
-
-
 app.use('/newUser', signinRoute);
 app.use('/user', loginRoute);
 app.use('/message', messagesRoutes);
