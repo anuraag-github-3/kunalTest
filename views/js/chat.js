@@ -1,6 +1,6 @@
+
 const backendAPI = 'http://localhost:3000';
 const token = localStorage.getItem('token');
-
 
 //to decode JWT token
 function parseJwt(token) {
@@ -421,7 +421,6 @@ async function uploadFile() {
         console.error(error);
     });
 }
-
 
 
 document.getElementById("createGroupForm").addEventListener("submit", function (e) {

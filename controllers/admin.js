@@ -17,7 +17,6 @@ const makeGroupAdmin = async (req, res) => {
             memberId = +req.user.id
         }
 
-        console.log(typeof memberId);
         await Admin.create({
             GroupId: +req.body.GroupId,
             memberId: memberId
